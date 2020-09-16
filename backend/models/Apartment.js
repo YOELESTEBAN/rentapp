@@ -10,23 +10,23 @@ const Schema = mongoose.Schema;
 const ApartmentSchema = Schema({
   price: {
     type: Number,
-    required: true,
+    //required: true,
   },
   type: {
     type: String,
-    required: true,
+    //required: true,
   },
   bathroom_count: {
     type: Number,
-    required: true,
+    //required: true,
   },
   bedroom_count: {
     type: Number,
-    required: true,
+    //required: true,
   },
   room_count: {
     type: Number,
-    required: true,
+    //required: true,
   },
   other_details: {
     type: String,
@@ -34,48 +34,48 @@ const ApartmentSchema = Schema({
   },
   garage: {
     type: Boolean,
-    required: true,
+    //required: true,
   },
   kids: {
     type: Boolean,
-    required: true,
+    //required: true,
   },
   pets: {
     type: Boolean,
-    required: true,
+    //required: true,
   },
   backyard: {
     type: Boolean,
-    required: true,
+    //required: true,
   },
   pool: {
     type: Boolean,
-    required: true,
+    //required: true,
   },
   address: {
     line: {
       type: String,
       uppercase: true,
-      required: true,
+      //required: true,
     },
     city: {
       type: String,
       uppercase: true,
-      required: true,
+      //required: true,
     },
     province: {
       type: String,
       uppercase: true,
-      required: true,
+      //required: true,
     },
     coordinates: {
       lat_map: {
         type: String,
-        required: true,
+        //required: true,
       },
       long_map: {
         type: String,
-        required: true,
+        //required: true,
       },
     },
   },

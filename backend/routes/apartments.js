@@ -1,6 +1,8 @@
+const { match } = require("assert");
 const express = require("express");
 const router = express.Router();
 const upload = require("../libs/storage");
+const { base } = require("../models/Apartment");
 const Apartment = require("../models/Apartment");
 
 //Obtener todos los apartments
@@ -77,8 +79,9 @@ router.get("/:idApartment", async (req, res) => {
 });
 
 //Crear un apartment
-router.post("/create", upload.array("photos", 5), async (req, res) => {
-  try {
+//router.post("/create", upload.array("photos", 5), async (req, res) => {
+router.post("/create", async (req, res) => {
+try {
     const apartment = new Apartment({
       price: req.body.price,
       type: req.body.type,
@@ -101,39 +104,69 @@ router.post("/create", upload.array("photos", 5), async (req, res) => {
       coordinates: req.body.coordinates,
     });
 
-    if (req.files) {
-      apartment.photos = [];
-      const cantidad = req.files.length;
+    const photos = [];
+    if (req.body.photos) {
+      const cantidad = req.body.photos.length;
       for (i = 0; i < cantidad; i++) {
-        const link = "./public/" + req.files[i].filename;
-        apartment.photos.push(link);
+        const imgData = req.body.photos[i];
+        const nombreArchivo = "img"+Math.random().toString() + ".jpg";
+        const base64Data = imgData.replace(/^data:image\/jpg;base64,/, "");
+        photos.push(`http://localhost:4000/storage/imgs/`+nombreArchivo);
+        require("fs").
+        writeFile("./storage/imgs/"+nombreArchivo, base64Data, 'base64', 
+        function(err, data) {
+          if (err) {
+                console.log('err', err);
+          }
+       });
       }
     }
+    apartment.photos = photos;
     const savedApartment = await apartment.save();
     res.json(savedApartment);
-  } catch (error) {
+  } 
+  catch (error) {
     return res.json(error.message);
   }
 });
 
 //Actualizar apartment
-router.put("/:idApartment", upload.array("photos", 5), async (req, res) => {
+router.put("/:idApartment", async (req, res) => {
   try {
     //const apartment = await Apartment.findById(req.params.idApartment).exec();
     const apartment = await Apartment.findOne({
       _id: req.params.idApartment,
     }).exec();
 
-    if (req.files) {
+    
+    if (req.body.photos) {
+      const photos = [];
       apartment.photos = [];
-      const cantidad = req.files.length;
+      const cantidad = req.body.photos.length;
+      console.log("tamaño array"+apartment.photos.length);
       for (i = 0; i < cantidad; i++) {
-        const link = "./public/" + req.files[i].filename;
-        apartment.photos.push(link);
+        const imgData = req.body.photos[i];
+        const nombreArchivo = "img"+Math.random().toString() + ".jpg";
+        const base64Data = imgData.replace(/^data:image\/jpg;base64,/, "");
+        photos.push(`http://localhost:4000/storage/imgs/`+nombreArchivo);
+        require("fs").
+        writeFile("./storage/imgs/"+nombreArchivo, base64Data, 'base64', 
+        function(err, data) {
+          if (err) {
+                console.log('err', err);
+          }
+       });
       }
+      apartment.photos = photos;
     }
 
-    apartment.set(req.body);
+    //apartment.set(req.body); //Me da error al actualizar las imagenes
+    if(req.body.price){
+      apartment.price = req.body.price;
+    }
+    if(req.body.backyard){
+      apartment.backyard = req.body.backyard
+    }
     await apartment.save();
     res.json({ success: "SE ACTUALIZO CON EXITO!" });
     //res.json(apartment);
