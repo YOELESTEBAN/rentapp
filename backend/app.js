@@ -6,11 +6,15 @@ const apiRouter = require("./routes/routes"); //traigo el fichero api
 const app = express();
 require("./auth/auth");
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({ extended: true }))
 
 //Le estoy diciendo a express que la ruta /public haga referencia a /storage/imgs
-app.use("/public", express.static(`${__dirname}/storage/imgs`));
+//app.use("/public", express.static(`${__dirname}/storage/imgs`));
+app.use("/storage/imgs", express.static(`${__dirname}/storage/imgs`));
 
 //Todas las rutas que ingresen con /api, la va a gestionar apiRouter
 app.use("/api", apiRouter);
