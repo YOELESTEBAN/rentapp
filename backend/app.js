@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const apiRouter = require("./routes/routes"); //traigo el fichero api
+const cors = require('cors');
 const app = express();
 require("./auth/auth");
 
@@ -11,6 +12,8 @@ require("./auth/auth");
 
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.use(cors());
 
 //Le estoy diciendo a express que la ruta /public haga referencia a /storage/imgs
 //app.use("/public", express.static(`${__dirname}/storage/imgs`));
@@ -20,3 +23,4 @@ app.use("/storage/imgs", express.static(`${__dirname}/storage/imgs`));
 app.use("/api", apiRouter);
 
 module.exports = app;
+
