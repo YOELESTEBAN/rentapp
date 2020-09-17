@@ -110,7 +110,8 @@ try {
       for (i = 0; i < cantidad; i++) {
         const imgData = req.body.photos[i];
         const nombreArchivo = "img"+Math.random().toString() + ".jpg";
-        const base64Data = imgData.replace(/^data:image\/jpg;base64,/, "");
+        //const base64Data = imgData.replace(/^data:image\/jpg;base64,/, "");
+        const base64Data = imgData.replace("data:image/jpeg;base64", "");
         photos.push(`http://localhost:4000/storage/imgs/`+nombreArchivo);
         require("fs").
         writeFile("./storage/imgs/"+nombreArchivo, base64Data, 'base64', 
@@ -147,7 +148,7 @@ router.put("/:idApartment", async (req, res) => {
       for (i = 0; i < cantidad; i++) {
         const imgData = req.body.photos[i];
         const nombreArchivo = "img"+Math.random().toString() + ".jpg";
-        const base64Data = imgData.replace(/^data:image\/jpg;base64,/, "");
+        const base64Data = imgData.replace("data:image/jpeg;base64", "");
         photos.push(`http://localhost:4000/storage/imgs/`+nombreArchivo);
         require("fs").
         writeFile("./storage/imgs/"+nombreArchivo, base64Data, 'base64', 
