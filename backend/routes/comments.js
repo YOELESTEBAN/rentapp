@@ -29,18 +29,18 @@ router.get("/:idComment", async (req, res) => {
 //Crear un comment
 
 router.post(
-  "/create/:idApartment/:userName",
+  "/create/:idApartment",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
       const apartment = await Apartment.findById(req.params.idApartment);
-      const user = await User.findByUserName(req.params.userName);
+      const user = await User.findByUserName(req.user.user_name);
       if (user != null) {
         const comment = new Comment({
           comment: req.body.comment,
           create_at: req.body.create_at,
           update_at: req.body.update_at,
-          user_name: req.params.userName,
+          user_name: user.userName,
         });
         comment.user = user;
         const savedComment = await comment.save();
