@@ -10,11 +10,11 @@ const Schema = mongoose.Schema;
 const ApartmentSchema = Schema({
   price: {
     type: Number,
-    //required: true,
+    required: true,
   },
   type: {
     type: String,
-    //required: true,
+    required: true,
   },
   bathroom_count: {
     type: Number,
@@ -22,7 +22,7 @@ const ApartmentSchema = Schema({
   },
   bedroom_count: {
     type: Number,
-    //required: true,
+    required: true,
   },
   room_count: {
     type: Number,
@@ -61,7 +61,7 @@ const ApartmentSchema = Schema({
     city: {
       type: String,
       uppercase: true,
-      //required: true,
+      required: true,
     },
     province: {
       type: String,
