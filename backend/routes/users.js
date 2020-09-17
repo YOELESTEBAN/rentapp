@@ -32,19 +32,6 @@ router.get(
   }
 );
 
-//Obtiene datos del perfil del usuario
-router.get(
-  "/profile",
-  passport.authenticate("jwt", { session: false }),
-  (req, res, next) => {
-    res.json({
-      message: "Datos:",
-      user: req.user,
-      token: req.query.secret_token,
-    });
-  }
-);
-
 //Obtener un user
 router.get(
   "/:idUser",
@@ -104,7 +91,7 @@ router.post("/login", async (req, res) => {
           },
           "top_secret"
         );
-        res.json({ login: "ok", token: token, user_name });
+        res.json({ login: "ok", token: token, user });
       } else {
         res.send("Password incorrecto");
       }
